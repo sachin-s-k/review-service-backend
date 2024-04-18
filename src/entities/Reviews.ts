@@ -6,9 +6,9 @@ const reviewSchema=new Schema<IReview>(
     
    {
 
-    scheduledDate:Date.now,
     scheduledReviews:Array,
-   
+    students:Array,
+    coordinators:Array
    }, 
    {
     timestamps:true

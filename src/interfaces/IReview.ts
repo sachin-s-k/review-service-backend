@@ -10,7 +10,10 @@ interface IReview{
         type:Date
 
     },
-    scheduledReviews:Reviews[]
+    
+    scheduledReviews:Reviews[],
+    students:[]
+    coordinators:[]
 }
 
 
