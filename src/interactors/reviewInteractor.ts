@@ -57,7 +57,7 @@ interface scheduleReviews{
 
         else{
 
-          //student count and coordinators count are equal
+          //student count and coordinators count are equal [case--1] --------[TESTEDDDDDD]
 
           if(orgStudentCount===coordinators.length){
             for(let i=0;i<coordinators.length;i++){
@@ -67,98 +67,93 @@ interface scheduleReviews{
             return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
           }
 
-           //student count is less than the coordinators count 3<20
+           //student count is less than the coordinators count 3<20 [case-2]-------[TESTEDDDDDD]
            if((students.length!==0 && sortedCoordinators.length!==0) && (students.length<sortedCoordinators.length)){
-
-              
-
-            for(let i=0;i<students.length;i++){
-                for(let j=0;j<1;j++){
+            for(let i=0;i<orgStudentCount;i++){
+                 console.log(students.length,i);
+                 
                   shiftedStudent=students.shift()
-                  if(shiftedStudent!==undefined)
-             scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:[shiftedStudent]})
-                }
+                  console.log(shiftedStudent);
+                  
+                  if(shiftedStudent!==undefined){
+                    scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:[shiftedStudent]})
+                  }
+            
+                
             }
+          
+            
+          return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
       }
 
-      //student count is greater than the coordinators count
+      //student count is greater than the coordinators count student count [test cased passed]
       if((students.length!==0&&coordinators.length!==0)&&(students.length>coordinators.length)){
-
+          console.log('review intractrooooooo');
+          
         //Both are even numbers
-        if(students.length%coordinators.length===0){
-          if(students.length%2===0 && coordinators.length%2===0){
+        if(students.length%2===0&&coordinators.length%2===0){
+          console.log('workedd');
+          remainingStudents=students.splice(coordinators.length,students.length-coordinators.length)
+          console.log(remainingStudents,'remian');
 
-            for(let i=0;i<coordinators.length;i++){
-            shiftedStudentArray=students.splice(0,orgStudentCount/coordinators.length)
-            scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:shiftedStudentArray})
-            }
-            return scheduledReviews
-          }
-
-        }else{
-
-          for(let i=0;i<coordinators.length;i++){
-            remainingStudents=students.splice(students.length-(students.length%coordinators.length),students.length)
-            for(let j=0;j<1;j++){
-              shiftedStudentArray=students.splice(0,Math.floor(students.length/coordinators.length))
-              scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:shiftedStudentArray})
-
-            }
-
+          for(let i=0;i<coordinators.length;i++){ 
+              scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:[students[i]]})
 
           }
           //remaining students assigning
 
           if(remainingStudents.length){
+            console.log(remainingStudents.length,);
+            
             for(let i=0;i<remainingStudents.length;i++){
-             scheduledReviews[i].StudentList.push(remainingStudents[i])
+              console.log(scheduledReviews);
+              
+            if(scheduledReviews[i]){
+              scheduledReviews[i].StudentList.push(remainingStudents[i])
+            }
             }
           }
-          return scheduledReviews
+          return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
         }
         
 
-        //student count is odd number,and coordinators count is even
+        //student count is odd number,and coordinators count is even--test case passsesd
 
         if(students.length%2!==0 && coordinators.length%2==0){
-           remainingStudents=students.splice(students.length-(students.length%coordinators.length),students.length%coordinators.length)
+           remainingStudents=students.splice(coordinators.length,orgStudentCount)
 
           for(let i=0;i<coordinators.length;i++){
 
-            remainingStudents=students.splice(students.length-Math.floor(students.length%coordinators.length),students.length)
-
-           
-
-            shiftedStudentArray=students.splice(0,Math.floor(orgStudentCount/coordinators.length))
-            if(shiftedStudentArray.length!==0){
-             scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:shiftedStudentArray})
+             scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:[students[i]]})
 
             }
                 
-              }
+              
 
               if(remainingStudents.length){
                 for(let i=0;i<remainingStudents.length;i++){
                 scheduledReviews[i].StudentList.push(remainingStudents[i])
                 }
               }
-              return scheduledReviews
+              return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
             
               }
 
               
 
-             // student count is even  number and, coordinator count is odd number
+             // student count is even  number and, coordinator count is odd number//test case passes
 
               if(students.length%2==0&&coordinators.length%2!==0){
 
                 remainingStudents=students.splice(coordinators.length,orgStudentCount)
   
-                for(let i=0;i<coordinators.length;i++){
-                  shiftedStudentArray=students.splice(0,Math.floor(orgStudentCount/coordinators.length))
+              
+          for(let i=0;i<coordinators.length;i++){
 
-                  scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:shiftedStudentArray})
-                }
+            scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:[students[i]]})
+
+           }
+               
 
                 if(remainingStudents.length){
                   for(let i=0;i<remainingStudents.length;i++){
@@ -169,8 +164,9 @@ interface scheduleReviews{
   
   
   
-                return scheduledReviews
+                return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
               }
+
               // Both student and coordinators count is odd number
 
               if(students.length%2!==0&&coordinators.length%2!==0){
@@ -178,17 +174,19 @@ interface scheduleReviews{
                 remainingStudents=students.splice(coordinators.length,orgStudentCount)
 
                 for(let i=0;i<coordinators.length;i++){
-                shiftedStudentArray=students.splice(0,Math.floor(orgStudentCount/coordinators.length))
-               scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:shiftedStudentArray})
+                
+               scheduledReviews.push({coordinatorsId:sortedCoordinators[i]._id,StudentList:[students[i]]})
                 }
+
+                if(remainingStudents.length){
+                  for(let i=0;i<remainingStudents.length;i++){
+                   scheduledReviews[i].StudentList.push(remainingStudents[i])
+                  }
+                }
+                return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
               }
 
-              if(remainingStudents.length){
-                for(let i=0;i<remainingStudents.length;i++){
-                 scheduledReviews[i].StudentList.push(remainingStudents[i])
-                }
-              }
-              return scheduledReviews
+              
               
             
             }

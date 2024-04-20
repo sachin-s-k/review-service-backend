@@ -10,20 +10,12 @@ export class ReviewRepository implements IReviewRepository{
 
         const scheduledReviewData = await scheduledReviews.create({students:studentsData,coordinators:coordiantorsData})
        return scheduledReviewData
-           
-           
-
         
     }
 
     async addScheduledReviews(id:string,scheduleReviews:any){
         const updateScheduledReviews=await scheduledReviews.findByIdAndUpdate(id,{scheduledReviews:scheduleReviews},{new:true})
-     
-      
            return updateScheduledReviews
-        
-        
-
     }
     
 

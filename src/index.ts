@@ -95,7 +95,7 @@ async function consumeCoordinatorEvents(message:any) {
 return  coordinatorsData
     
   } catch (error) {
-    console.error('Error processing Coordinstor event:', error);
+    console.error('Error processing Coordinator event:', error);
   }
 }
 async function consumeStudentEvents(message:any) {
