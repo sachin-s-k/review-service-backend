@@ -2,7 +2,7 @@ import { model,Schema } from "mongoose"
 import IReview from "../interfaces/IReview"
 
 
-const reviewSchema=new Schema<IReview>(
+const reviewSchedulerSchema=new Schema<IReview>(
     
    {
 
@@ -18,6 +18,6 @@ const reviewSchema=new Schema<IReview>(
 
 )
 
-const scheduledReviews=model<IReview>('scheduled-review',reviewSchema)
+const scheduledReviews=model<IReview>('scheduled-review',reviewSchedulerSchema)
 
 export {scheduledReviews}

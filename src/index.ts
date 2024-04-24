@@ -1,5 +1,6 @@
-import express, { Express, Request, Response } from "express";
+import express, { Application, Express, Request, Response } from "express";
 import dotenv from "dotenv";
+import cors from 'cors'
 import { config,connectDB } from "./config/dbConfig";
 import nodecron, { schedule } from 'node-cron'
 import { ReviewController } from "./controllers/reviewController";
@@ -7,31 +8,40 @@ import { consumerConnect } from "./infrastructure/consumers/consumer";
 import { ReviewRepository } from "./repositories/ReviewRepository";
 import { ReviewInteractor } from "./interactors/reviewInteractor";
 import { sendMessage } from "./infrastructure/kafkaService";
+import { reviewRouter } from "./routes/reviewRouter";
+import bodyParser from "body-parser"
 dotenv.config();
-const app: Express = express();
-const port = process.env.PORT || 6000
+const app: Application = express();
+const port = process.env.PORT || 6001
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true // Make sure to enable credentials
+}
+app.use(cors(corsOptions))
+app.use(bodyParser.json())
+
 const reviewRepository= new ReviewRepository()
 const reviewInteractor=new ReviewInteractor(reviewRepository)
 const reviewController=new ReviewController(reviewInteractor)
+app.use('/review',reviewRouter)
 
 
-
-nodecron.schedule('* * * * *', async () => {
+// nodecron.schedule('* * * * *', async () => {
 
   
-  try {
+//   try {
  
     
-    const message={
-      type:'review-scheduler-data',
-      data:{id:'123'}
+//     const message={
+//       type:'review-scheduler-data',
+//       data:{id:'123'}
      
-  }
-    sendMessage('review-events',message)
-  } catch (error) {
-    console.error('Error scheduling review:', error);
-  }
-})
+//   }
+//     sendMessage('review-events',message)
+//   } catch (error) {
+//     console.error('Error scheduling review:', error);
+//   }
+// })
 
 var coordinatorsData:any
 var studentsData:any
@@ -79,9 +89,15 @@ async function scheduleInteractor(){
     
         sendMessage('review-events',message)
     
-       }
+       }else{
+        const message={
+          type:'advisors-task',
+          reviewData:[]
+        }
     
+        sendMessage('review-events',message)
 
+       }
   }
   }
   
@@ -107,7 +123,12 @@ async function consumeStudentEvents(message:any) {
     console.error('Error processing product event:', error);
   }
 }
+app.listen(port,()=>{
+  console.log(`app coneected successfullly:${port}`);
+  
+
+})
 connectDB(config)
-consumerConnect()
+//consumerConnect()
 
 export {consumeCoordinatorEvents,consumeStudentEvents}

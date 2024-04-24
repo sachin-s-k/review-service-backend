@@ -1,5 +1,6 @@
 import kafkajs from 'kafkajs';
 import { consumeStudentEvents,consumeCoordinatorEvents } from '../..';
+import { reviewController } from '../../routes/reviewRouter';
 const kafkaClient = new kafkajs.Kafka({
   clientId: 'review-service',
   brokers: ['127.0.0.1:9092'] // Adjust if Kafka runs on a different port or host
@@ -20,7 +21,10 @@ const consumerConnect =async ()=>{
                     case  'coordinator-data':
                     await consumeCoordinatorEvents(message)
                     break;
-
+                    case 'review-booking-updation':
+                    await reviewController.onUpdateReviewBooking(message)
+                    case 'review-status-updation':
+                    await reviewController.onUpdateReviewBooking(message)    
                     default:
 
                     console.log(`Unhandled topic: ${topic}`)
@@ -39,5 +43,5 @@ const consumerConnect =async ()=>{
 
 
 
-export {consumerConnect}
+export {consumerConnect,kafkaClient}
 

@@ -1,6 +1,8 @@
 import { IReviewInteractor } from "../interfaces/IReviewInteractor";
 import { IReviewRepository } from "../interfaces/IReviewRepository";
 import  { ObjectId } from "mongoose"
+import axios from 'axios'
+
 export class ReviewInteractor implements IReviewInteractor{
 
     private ReviewRepository:IReviewRepository
@@ -82,7 +84,7 @@ interface scheduleReviews{
                 
             }
           
-            
+          
           return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
       }
 
@@ -194,4 +196,65 @@ interface scheduleReviews{
         }
 
       }
+
+     async getReviewStudentDetail(studentId:string){
+
+        try{
+          // console.log('entered student', studentId);
+          
+          const student= await axios.get(`http://localhost:4001/student-service/students/${studentId}`)
+          // console.log('|||||||||||||||||||||');
+          
+          // console.log(student.data);
+          // console.log('|||||||||||||||||||||');
+          return student.data
+
+        }catch(error){
+
+        }
+
+      }
+
+      async  getCoordinatorReviewDetail(coordinatorID:string){
+        
+      try{
+        // console.log('entereddd');
+        
+        const coordinatorReviewDetails=  await this.ReviewRepository.coordinatorReviews(coordinatorID)
+        // console.log(coordinatorReviewDetails);
+        const {reviews}=coordinatorReviewDetails[0]
+        // console.log(reviews);
+        
+        const studentDetails=await Promise.all(reviews.map(async (student:any)=>{
+// console.log(student,'studennnttttttttttttt');
+
+       const studentData:any=await this.getReviewStudentDetail(student._doc.studentId)
+//console.log(studentData);
+
+       return {...student._doc,name:studentData.name,batch:studentData.batch,currentWeek:studentData.currentWeek,domain:studentData.domain}
+
+        }))
+         console.log('student detaislsssssssssssss');
+         
+      console.log(studentDetails);
+        return studentDetails
+      }catch(error){
+        console.log(error);
+        
+        return {error,message:"there is an error in fetching the reviews"}
+      }
+
+
+       }
+
+
+
+       async reviewbookingUpdation(data:any){
+
+       }
+
+       async reviewStatusUpdation(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string){
+
+       }
+
 }
