@@ -95,7 +95,7 @@ interface scheduleReviews{
         //Both are even numbers
         if(students.length%2===0&&coordinators.length%2===0){
           console.log('workedd');
-          remainingStudents=students.splice(coordinators.length,students.length-coordinators.length)
+          remainingStudents=students.splice(coordinators.length,orgStudentCount)
           console.log(remainingStudents,'remian');
 
           for(let i=0;i<coordinators.length;i++){ 
@@ -106,13 +106,24 @@ interface scheduleReviews{
 
           if(remainingStudents.length){
             console.log(remainingStudents.length,);
-            
-            for(let i=0;i<remainingStudents.length;i++){
+            let orgRemainingStudentCount=remainingStudents.length
+            for(let i=0;i<coordinators.length;i++){
               console.log(scheduledReviews);
+              let j
+              for(j=0;j<Math.floor(orgRemainingStudentCount/coordinators.length);j++){
+                if(remainingStudents[j]==undefined){
+                  break;
+                }else{
+                  scheduledReviews[i].studentList.push(remainingStudents[j])
+
+                }
+
+              }
+              remainingStudents.splice(0,j)
+
+
               
-            if(scheduledReviews[i]){
-              scheduledReviews[i].StudentList.push(remainingStudents[i])
-            }
+    
             }
           }
           return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
@@ -132,11 +143,34 @@ interface scheduleReviews{
                 
               
 
+              // if(remainingStudents.length){
+              //   for(let i=0;i<remainingStudents.length;i++){
+              //   scheduledReviews[i].StudentList.push(remainingStudents[i])
+              //   }
+              // }
               if(remainingStudents.length){
-                for(let i=0;i<remainingStudents.length;i++){
-                scheduledReviews[i].StudentList.push(remainingStudents[i])
+                console.log(remainingStudents.length,);
+                let orgRemainingStudentCount=remainingStudents.length
+                for(let i=0;i<coordinators.length;i++){
+                  console.log(scheduledReviews);
+                  let j
+                  for(j=0;j<Math.floor(orgRemainingStudentCount/coordinators.length);j++){
+                    if(remainingStudents[j]==undefined){
+                      break;
+                    }else{
+                      scheduledReviews[i].studentList.push(remainingStudents[j])
+    
+                    }
+    
+                  }
+                  remainingStudents.splice(0,j)
+    
+    
+                  
+        
                 }
               }
+             
               return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
             
               }
@@ -157,11 +191,28 @@ interface scheduleReviews{
            }
                
 
-                if(remainingStudents.length){
-                  for(let i=0;i<remainingStudents.length;i++){
-                    scheduledReviews[i].StudentList.push(remainingStudents[i])
-                  }
+           if(remainingStudents.length){
+            console.log(remainingStudents.length,);
+            let orgRemainingStudentCount=remainingStudents.length
+            for(let i=0;i<coordinators.length;i++){
+              console.log(scheduledReviews);
+              let j
+              for(j=0;j<Math.floor(orgRemainingStudentCount/coordinators.length);j++){
+                if(remainingStudents[j]==undefined){
+                  break;
+                }else{
+                  scheduledReviews[i].studentList.push(remainingStudents[j])
+
                 }
+
+              }
+              remainingStudents.splice(0,j)
+
+
+              
+    
+            }
+          }
   
   
   
@@ -181,8 +232,25 @@ interface scheduleReviews{
                 }
 
                 if(remainingStudents.length){
-                  for(let i=0;i<remainingStudents.length;i++){
-                   scheduledReviews[i].StudentList.push(remainingStudents[i])
+                  console.log(remainingStudents.length,);
+                  let orgRemainingStudentCount=remainingStudents.length
+                  for(let i=0;i<coordinators.length;i++){
+                    console.log(scheduledReviews);
+                    let j
+                    for(j=0;j<Math.floor(orgRemainingStudentCount/coordinators.length);j++){
+                      if(remainingStudents[j]==undefined){
+                        break;
+                      }else{
+                        scheduledReviews[i].studentList.push(remainingStudents[j])
+      
+                      }
+      
+                    }
+                    remainingStudents.splice(0,j)
+      
+      
+                    
+          
                   }
                 }
                 return this.ReviewRepository.addScheduledReviews(id,scheduledReviews)
