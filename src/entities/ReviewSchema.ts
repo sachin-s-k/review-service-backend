@@ -32,7 +32,10 @@ const reviewSchema=new Schema<IReviewSchema>(
                     const assigned=new Date(this.assignedDate)
                     return assigned? new Date(assigned.setDate(assigned.getDate()+2)):null
                 }
-            }
+            },
+            startTime:String,
+            endTime:String,
+            scheduledDate:String
             
             
         },

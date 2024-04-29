@@ -5,6 +5,8 @@ export interface IReviewRepository{
     addScheduledReviews(id:string,scheduledReviews:any):any,
     addCoordinatorsReviews(scheduledReviews:any):any,
     coordinatorReviews(coordiantorId:String):any,
-    addReviewBookingData(data:any):any
+    addReviewBookingData(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string):any,
+    getIndividualCoordinatorReview(id:string):any,
+    addReviewStatusUpdation(coordinatorId:string,reviewId:string,reviewStatus:string):any
 }
 

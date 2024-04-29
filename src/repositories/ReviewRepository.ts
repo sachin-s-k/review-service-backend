@@ -78,11 +78,50 @@ export class ReviewRepository implements IReviewRepository{
     }
 }
 
-addReviewBookingData(data: any) {
+async addReviewBookingData(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string) {
     //coodinatorData:
     //reviewObjectId
-}
+console.log('reppooo');
 
+console.log(coordinatorId,reviewId);
+
+    const updatefields={$set:{'reviews.$[review].reviewStatus':'completed'}}
+    const filter=[{'review._id':reviewId}]
+    
+const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
+console.log(response,'ressssss');
+
+return response
+
+}
+   
+
+
+async getIndividualCoordinatorReview(coordinatorId:string){
+
+    const assignedReviews=await reviews.find({coordinatorId,reviews:{$elemMatch:{reviewStatus:"notcompleted"}}},{
+        'reviews.$': 1
+      })
+    console.log(assignedReviews,'asss');
+    
+
+    return assignedReviews
+
+}
+async addReviewStatusUpdation(reviewId:string,coordinatorId:string,reviewStatus:string) {
+    console.log('reppooo');
+
+
+
+    const updatefields={$set:{'reviews.$[review].reviewStatus':reviewStatus}}
+    const filter=[{'review._id':reviewId}]
+    
+   const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
+   console.log(response,'ressssss');
+
+return response
+    
+}
 
 
 

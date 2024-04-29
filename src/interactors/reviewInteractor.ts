@@ -317,12 +317,21 @@ interface scheduleReviews{
 
 
 
-       async reviewbookingUpdation(data:any){
+       async reviewbookingUpdation(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string){
+        console.log('interactorr called');
+        return this.ReviewRepository.addReviewBookingData(coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate)
+       }
+
+        reviewStatusUpdation(coordinatorId:string,reviewId:string,reviewStatus:string){
+
+          return this.ReviewRepository.addReviewStatusUpdation(coordinatorId,reviewId,reviewStatus)
+        
 
        }
 
-       async reviewStatusUpdation(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string){
-
+       async  coordinatorsReviews(coordinatorId:string){
+        return this.ReviewRepository.getIndividualCoordinatorReview(coordinatorId)
+             
        }
 
 }

@@ -50,15 +50,44 @@ class ReviewController {
 
    }
    async onUpdateReviewBooking(data:any){
-    console.log(data);
-     const reviewerId=''
-     const reviewId=''
-     const coordinatorId=''
-     const eventId=''
-     const slotId=''
+console.log('helloo');
 
-     const  response=await this.reviewInteractor.reviewbookingUpdation(coordinatorId,reviewId,reviewerId,eventId,slotId)
+    
+    const { coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate}=data
+    // const scheduledDate=req.body.conductedDate
+    // const reviewId="6628ef19622dcbd305e0d713"
+    // const coordinatorId="65ed8fc3afcda5149bbf0166"
+    const  response=await this.reviewInteractor.reviewbookingUpdation(coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate)
+    console.log(response);
+    
 
+   }
+
+
+   async onGetAllCoordinatorsReviews(req:Request,res:Response){
+
+    const coordinatorId=req.params.coordinatorId
+
+    const response=await this.reviewInteractor.coordinatorsReviews(coordinatorId)
+
+       return res.json(response)
+
+   }
+
+ async OnGetScheduledReviews(req:Request,res:Response){
+
+
+    const coordinatorId=req.params.coordinatorId
+    const response=await this.reviewInteractor.coordinatorsReviews(coordinatorId)
+
+       return res.json(response)
+
+   }
+
+   async OnReviewStatusUpdation(data:any){
+    const {coordinatorId,reviewId,reviewStatus}=data
+    const response=await this.reviewInteractor.reviewStatusUpdation(coordinatorId,reviewId,reviewStatus)
+    
    }
 
 
