@@ -81,11 +81,8 @@ export class ReviewRepository implements IReviewRepository{
 async addReviewBookingData(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string) {
     //coodinatorData:
     //reviewObjectId
-console.log('reppooo');
 
-console.log(coordinatorId,reviewId);
-
-    const updatefields={$set:{'reviews.$[review].reviewStatus':'completed'}}
+    const updatefields={$set:{'reviews.$[review].startTime':startTime,'reviews.$[review].endTime':endTime,'reviews.$[review].scheduledDate':scheduledDate,'reviews.$[review].reviewerId':reviewerId,'reviews.$[review].slotId':slotId,'reviews.$[review].eventId':eventId}}
     const filter=[{'review._id':reviewId}]
     
 const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})

@@ -53,7 +53,7 @@ class ReviewController {
 console.log('helloo');
 
     
-    const { coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate}=data
+    const { coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate}=JSON.parse(data.value.toString())
     // const scheduledDate=req.body.conductedDate
     // const reviewId="6628ef19622dcbd305e0d713"
     // const coordinatorId="65ed8fc3afcda5149bbf0166"

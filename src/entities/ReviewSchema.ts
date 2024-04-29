@@ -33,9 +33,27 @@ const reviewSchema=new Schema<IReviewSchema>(
                     return assigned? new Date(assigned.setDate(assigned.getDate()+2)):null
                 }
             },
-            startTime:String,
-            endTime:String,
-            scheduledDate:String
+            startTime:{
+                type:String,
+                default:null
+            },
+            endTime:{
+                type:String,
+                default:null
+            },
+            scheduledDate:{
+                type:String,
+                default:null
+            },
+            slotId:{
+                type:mongoose.Schema.Types.ObjectId,
+                default:null
+            },
+            eventId:{
+                type:mongoose.Schema.Types.ObjectId,
+                default:null
+            }
+            
             
             
         },
