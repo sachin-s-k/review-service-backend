@@ -120,12 +120,23 @@ return response
     
 }
 async addmeetingLink(meetingLink: string, coordinatorId: string, reviewId: string) {
+
+    const reviewObj=await reviews.findOne({coordinatorId:coordinatorId})
+    const reviewData:any=reviewObj?.reviews.filter((data:any)=>{
+     return data?._id==reviewId
+    })
+    if(reviewData[0].meetingLink!==null){
+        return reviewData[0].meetingLink
+    }else{
+        const updatefields={$set:{'reviews.$[review].meetingLink':meetingLink}}
+        const filter=[{'review._id':reviewId}]
+        
+       const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
+     return response
+
+    }
     
-    const updatefields={$set:{'reviews.$[review].meetingLink':meetingLink}}
-    const filter=[{'review._id':reviewId}]
-    
-   const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
- return response
+   
 }
 
 
