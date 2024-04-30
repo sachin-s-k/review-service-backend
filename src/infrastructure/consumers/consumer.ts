@@ -11,6 +11,9 @@ const consumerConnect =async ()=>{
     await consumer.connect()
     await consumer.subscribe({topic:'student-data',fromBeginning:true})
     await consumer.subscribe({topic:'coordinator-data',fromBeginning:true})
+    await consumer.subscribe({topic:'review-booking-updation',fromBeginning:true})
+    await consumer.subscribe({topic:'review-status-updation',fromBeginning:true})
+    await consumer.subscribe({topic:'meeting-link',fromBeginning:true})
     await consumer.run({
         eachMessage:async ({topic,partition,message})=>{
             try{
