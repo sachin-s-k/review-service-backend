@@ -52,6 +52,10 @@ const reviewSchema=new Schema<IReviewSchema>(
             eventId:{
                 type:mongoose.Schema.Types.ObjectId,
                 default:null
+            },
+            meetingLink:{
+                type:String,
+                default:null
             }
             
             

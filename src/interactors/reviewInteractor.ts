@@ -334,4 +334,21 @@ interface scheduleReviews{
              
        }
 
+       async meetingLinkUpdation(meetingLink:string,coordinatorId:string,reviwId:string){
+
+        return this.ReviewRepository.addmeetingLink(meetingLink,coordinatorId,reviwId)
+
+       }
+       async getMeetingLink(coordinatorId:string,reviewId:string){
+
+        return this.ReviewRepository.findMeetingLink(coordinatorId,reviewId)
+
+       }
+       getStudentreview(studentId: string) {
+         return this.ReviewRepository.findStudentreview(studentId)
+       }
+
+       
+
+
 }

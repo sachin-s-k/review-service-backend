@@ -25,6 +25,8 @@ const consumerConnect =async ()=>{
                     await reviewController.onUpdateReviewBooking(message)
                     case 'review-status-updation':
                     await reviewController.OnReviewStatusUpdation(message)    
+                    case 'meeting-link':
+                    await reviewController.OnReviewStatusUpdation(message)
                     default:
 
                     console.log(`Unhandled topic: ${topic}`)

@@ -6,6 +6,8 @@ export interface IReviewInteractor{
     reviewbookingUpdation(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string):any
     coordinatorsReviews(coordinatorId:string):any,
     reviewStatusUpdation(coordinatorId:string,reviewId:string,reviewStatus:string):any
-    
+    meetingLinkUpdation(meetingLink:string,coordinatorId:string,reviwId:string):any
+    getMeetingLink(coordinatorId:string,reviwId:string):any
+    getStudentreview(studentId:string):any
 }
 

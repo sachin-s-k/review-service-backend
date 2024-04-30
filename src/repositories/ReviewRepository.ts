@@ -119,9 +119,63 @@ async addReviewStatusUpdation(reviewId:string,coordinatorId:string,reviewStatus:
 return response
     
 }
+async addmeetingLink(meetingLink: string, coordinatorId: string, reviewId: string) {
+    
+    const updatefields={$set:{'reviews.$[review].meetingLink':meetingLink}}
+    const filter=[{'review._id':reviewId}]
+    
+   const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
+ return response
+}
 
 
 
+ async findMeetingLink(coordinatorId: string, reviewId: string) {
+
+    const filter=[{'review._id':reviewId}]
+    
+   const response=await reviews.findOne({coordinatorId:coordinatorId})
+   const reviewData:any=response?.reviews.filter((data:any)=>{
+    return data?._id==reviewId
+   })
+
+return reviewData[0].meetingLink
+    
+}
+
+
+
+async findStudentreview(studentId: string) {
+    const response=await reviews.aggregate([
+        {
+          '$group': {
+            '_id': '$reviews'
+          }
+        }, {
+          '$unwind': {
+            'path': '$_id'
+          }
+        }, {
+          '$match': {
+            '$and': [
+              {
+                '_id.studentId': new mongoose.Types.ObjectId(studentId)
+              }, {
+                '$or': [
+                  {
+                    '_id.reviewStatus': 'scheduled'
+                  }, {
+                    '_id.reviewStatus': 'repeat'
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ])
+      console.log(response[0]);
+      return response[0]
+}
 
     
 

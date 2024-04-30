@@ -90,6 +90,31 @@ console.log('helloo');
     
    }
 
+   async OnMeetingLinkUpdation(data:any){
+
+    const {meetingLink,coordinatorId,reviewId}=data
+
+    const response=await this.reviewInteractor.meetingLinkUpdation(meetingLink,coordinatorId,reviewId)
+
+
+   }
+
+
+   async OngetMeetingLink(req:Request,res:Response){
+    const coodinatorId=req.params.id
+    const reviewId=req.params.reviewId
+    const response=await this.reviewInteractor.getMeetingLink(coodinatorId,reviewId)
+    return res.json(response)
+   }
+
+   async OnGetStudentReview(req:Request,res:Response){
+    const studentId:string=req.params.studentId
+
+    const response=await this.reviewInteractor.getStudentreview(studentId)
+    return res.json(response)
+
+   }
+
 
 
 
