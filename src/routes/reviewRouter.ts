@@ -16,4 +16,5 @@ reviewRouter.get('/coordinator-reviews/:coordinatorId',reviewController.OnGetSch
 reviewRouter.post('/update',reviewController.onUpdateReviewBooking.bind(reviewController))
 reviewRouter.get('/meeting-link/:coordinatorId/:reviewId',reviewController.OngetMeetingLink.bind(reviewController))
 reviewRouter.get('/student-review/:studentId',reviewController.OnGetStudentReview.bind(reviewController))
+reviewRouter.patch('/update-meeting-link/',reviewController.OnMeetingLinkUpdation.bind(reviewController))
 export {reviewRouter,reviewController}

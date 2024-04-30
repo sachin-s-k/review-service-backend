@@ -90,24 +90,26 @@ console.log('helloo');
     
    }
 
-   async OnMeetingLinkUpdation(data:any){
+   async OnMeetingLinkUpdation(req:Request,res:Response){
 
-    const {meetingLink,coordinatorId,reviewId}=data
+    const {meetingLink,coordinatorId,reviewId}=req.body
 
     const response=await this.reviewInteractor.meetingLinkUpdation(meetingLink,coordinatorId,reviewId)
-
+     return res.json(response)
 
    }
 
 
    async OngetMeetingLink(req:Request,res:Response){
-    const coodinatorId=req.params.id
+    const coordinatorId=req.params.id
     const reviewId=req.params.reviewId
-    const response=await this.reviewInteractor.getMeetingLink(coodinatorId,reviewId)
+    const response=await this.reviewInteractor.getMeetingLink(coordinatorId,reviewId)
     return res.json(response)
    }
 
    async OnGetStudentReview(req:Request,res:Response){
+    console.log('hellooo');
+    
     const studentId:string=req.params.studentId
 
     const response=await this.reviewInteractor.getStudentreview(studentId)

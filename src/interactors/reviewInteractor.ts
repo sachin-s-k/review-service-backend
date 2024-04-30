@@ -270,7 +270,7 @@ interface scheduleReviews{
         try{
           // console.log('entered student', studentId);
           
-          const student= await axios.get(`http://localhost:4001/student-service/students/${studentId}`)
+          const student= await axios.get(`http://localhost:4000/api/students/get-profile/${studentId}`)
           // console.log('|||||||||||||||||||||');
           
           // console.log(student.data);
@@ -347,6 +347,23 @@ interface scheduleReviews{
        getStudentreview(studentId: string) {
          return this.ReviewRepository.findStudentreview(studentId)
        }
+       async getCoordinatorDetail(coordinatorId:string){
+
+        try{
+          // console.log('entered student', studentId);
+          
+          const student= await axios.get(`http://localhost:4001/student-service/students/${coordinatorId}`)
+          // console.log('|||||||||||||||||||||');
+          
+          // console.log(student.data);
+          // console.log('|||||||||||||||||||||');
+          return student.data
+
+        }catch(error){
+
+        }
+
+      }
 
        
 

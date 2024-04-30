@@ -148,24 +148,25 @@ return reviewData[0].meetingLink
 async findStudentreview(studentId: string) {
     const response=await reviews.aggregate([
         {
-          '$group': {
-            '_id': '$reviews'
+          '$project': {
+            'coordinatorId': 1, 
+            'reviews': 1
           }
         }, {
           '$unwind': {
-            'path': '$_id'
+            'path': '$reviews'
           }
         }, {
           '$match': {
             '$and': [
               {
-                '_id.studentId': new mongoose.Types.ObjectId(studentId)
+                'reviews.studentId': new mongoose.Types.ObjectId('657aaa012a15acfff364bb5a')
               }, {
                 '$or': [
                   {
-                    '_id.reviewStatus': 'scheduled'
+                    'reviews.reviewStatus': 'scheduled'
                   }, {
-                    '_id.reviewStatus': 'repeat'
+                    'reviews.reviewStatus': 'repeat'
                   }
                 ]
               }
@@ -173,8 +174,13 @@ async findStudentreview(studentId: string) {
           }
         }
       ])
-      console.log(response[0]);
-      return response[0]
+      if(response.length){
+        return response[0]
+      }else{
+        return {error:true,message:"there is no scheduled reviews"}
+      }
+
+      
 }
 
     
