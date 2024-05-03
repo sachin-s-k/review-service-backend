@@ -11,5 +11,8 @@ export interface IReviewRepository{
     addmeetingLink(meetingLink:string,coordinatorId:string,reviwId:string):any
     findMeetingLink(coordinatorId:string,reviwId:string):any,
     findStudentreview(studentId:string):any
+    updateExtendRequest(coordinatorId:string,reviewId:string,reason:string):any
+    findCoordinatorExtendReqs(coordinatorId:string):any
+    findStudentExtendRequests(studentId:string):any
 }
 

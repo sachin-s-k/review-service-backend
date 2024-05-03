@@ -9,5 +9,9 @@ export interface IReviewInteractor{
     meetingLinkUpdation(meetingLink:string,coordinatorId:string,reviwId:string):any
     getMeetingLink(coordinatorId:string,reviwId:string):any
     getStudentreview(studentId:string):any
+    sendExtendRequest(coordinatorId:string,reviewId:string,reason:string):any
+    getCoordinatorExtendRequests(coordinatorId:string):any,
+    studentExtendRequests(studentId:string):any
+    updateExtendReqStatus(coordinatorId:string,reviewId:string,type:string):any
 }
 

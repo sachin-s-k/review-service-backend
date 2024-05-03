@@ -365,7 +365,23 @@ interface scheduleReviews{
 
       }
 
+      sendExtendRequest(coordinatorId:string,reviewId:string,extendReason:string){
+
+        return this.ReviewRepository.updateExtendRequest(coordinatorId,reviewId,extendReason)
+      }
+
+      getCoordinatorExtendRequests(coordinatorId: string) {
+        return this.ReviewRepository.findCoordinatorExtendReqs(coordinatorId)
+      }
+
+      studentExtendRequests(studentId: string) {
+        return this.ReviewRepository.findStudentExtendRequests(studentId)
+      }
+
        
+      updateExtendReqStatus(coordinatorId: string, reviewId: string, type: string) {
+        return this.ReviewRepository.updateExtendRequest(coordinatorId,reviewId,type)
+      }
 
 
 }

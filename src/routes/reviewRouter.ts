@@ -17,4 +17,9 @@ reviewRouter.post('/update',reviewController.onUpdateReviewBooking.bind(reviewCo
 reviewRouter.get('/meeting-link/:coordinatorId/:reviewId',reviewController.OngetMeetingLink.bind(reviewController))
 reviewRouter.get('/student-review/:studentId',reviewController.OnGetStudentReview.bind(reviewController))
 reviewRouter.patch('/update-meeting-link/',reviewController.OnMeetingLinkUpdation.bind(reviewController))
+reviewRouter.post('/extend-request',reviewController.OnExtendRequestsSend.bind(reviewController))
+reviewRouter.get('/extend-requests/:coordinatorId',reviewController.OnGetExtendReqsForCoordinators.bind(reviewController))
+reviewRouter.get('/student-extend-requests',reviewController.OnGetStudentExtendRequests.bind(reviewController))
+reviewRouter.get('/change-extend-request-status',reviewController.OnChangeStudentExtendStatus.bind(reviewController))
+
 export {reviewRouter,reviewController}

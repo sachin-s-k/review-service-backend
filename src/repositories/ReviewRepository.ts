@@ -5,6 +5,7 @@ import { IReviewRepository } from "../interfaces/IReviewRepository";
 
 
 
+
 export class ReviewRepository implements IReviewRepository{
 
 
@@ -193,8 +194,103 @@ async findStudentreview(studentId: string) {
 
       
 }
+  async updateExtendRequest(coordinatorId: string, reviewId: string,extendReason:string) {
+    const updatefields={$set:{'reviews.$[review].isExtendReqSend':true,'reviews.$[review].extendReason':extendReason,'reviews.$[review].extendStatus':"pending"}}
+    const filter=[{'review._id':reviewId}]
+    const response=await reviews.findOneAndUpdate({coordinatorId},updatefields,{new:true,arrayFilters:filter})
 
+     return response
+     
+ }
+
+ async findCoordinatorExtendReqs(coordinatorId: string) {
+console.log(coordinatorId);
+
+    const reviewsData=await reviews.findOne({coordinatorId:coordinatorId})
+    //console.log(reviewsData);
     
+    const pendingReviews=reviewsData?.reviews.filter(review=>review?.extendStatus=="pending")
+    console.log(pendingReviews,'prrrrrr');
+    
+    return pendingReviews
+     
+ }
 
+ async findStudentExtendRequests(studentId:string){
+    const response=await reviews.aggregate([
+        {
+          '$project': {
+            'coordinatorId': 1, 
+            'reviews': 1
+          }
+        }, {
+          '$unwind': {
+            'path': '$reviews'
+          }
+        }, {
+          '$match': {
+            '$and': [
+              {
+                'reviews.studentId': new mongoose.Types.ObjectId(studentId)
+              }, {
+                '$or': [
+                  {
+                    'reviews.extendStatus': 'rejected'
+                  }, {
+                    'reviews.extendStatus': 'approved'
+                  },
+                  {
+                    'reviews.extendStatus': 'pending'
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ])
+      if(response.length){
+        return response
+      }else{
+        return {error:true,message:"there is no scheduled reviews"}
+      }
+
+     
+
+ }
+
+ async updateExtendRequests(coordinatorId:string,reviewId:string,type:string){
+
+   try{
+    if(type=="rejected"||type=="approved"){
+        const filter=[{'review._id':reviewId}]
+        const updatefields={$set:{'reviews.$[review].extendReqStatus':type}}
+        const response=await reviews.findOneAndUpdate({coordinatorId},updatefields,{new:true,arrayFilters:filter})
+         return response
+
+    }
+    else if(type=="repeat"||type=="completed"){
+        const reviewsData=await reviews.findOne({coordinatorId})
+        const pendingReviews:any=reviewsData?.reviews.find((review:any)=>review._id==reviewId)
+        if(pendingReviews.extendReqSend){
+            const filter=[{'review._id':reviewId}]
+            const updatefields={$set:{'reviews.$[review].extendReqStatus':"rejected"}}
+            const response=await reviews.findOneAndUpdate({coordinatorId},updatefields,{new:true,arrayFilters:filter})
+             //return response
+
+        }
+      
+        
+    }
+    else{
+        return {error:true,message:"sorry, there is no review data"}
+    }
+
+
+   }catch(error){
+    return error
+
+   }
+
+ }
 
 }

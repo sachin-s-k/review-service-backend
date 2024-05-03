@@ -6,7 +6,8 @@ export interface IReview{
     reviewStatus:String,
     reviewDate:Date,
     assignedDate:Date,
-    conductedDate:Date
+    conductedDate:Date,
+    extendStatus:String
 
 }
 export interface IReviewSchema{

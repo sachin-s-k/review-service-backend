@@ -56,11 +56,32 @@ const reviewSchema=new Schema<IReviewSchema>(
             meetingLink:{
                 type:String,
                 default:null
+            },
+            isExtendReqSend:{
+                type:Boolean,
+                default:false
+            },
+            extendReason:{
+                type:String,
+                default:null
+            },
+           
+            extendStatus:{
+                type:String,
+                default:null
+            },
+            createdAt:{
+                type:Date,
+                default:Date.now()
             }
+           
+        
             
             
             
+           
         },
+        
         ]
 
     },

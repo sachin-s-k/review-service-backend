@@ -28,22 +28,22 @@ app.use('/review',reviewRouter)
 
 
 
-// nodecron.schedule('* * * * *', async () => {
+nodecron.schedule('* * * * *', async () => {
 
   
-//   try {
+  try {
  
     
-//     const message={
-//       type:'review-scheduler-data',
-//       data:{id:'123'}
+    const message={
+      type:'review-scheduler-data',
+      data:{id:'123'}
      
-//   }
-//     sendMessage('review-events',message)
-//   } catch (error) {
-//     console.error('Error scheduling review:', error);
-//   }
-// })
+  }
+    sendMessage('review-events',message)
+  } catch (error) {
+    console.error('Error scheduling review:', error);
+  }
+})
 
 var coordinatorsData:any
 var studentsData:any
@@ -60,48 +60,49 @@ function checkAndSchduleEVents() {
 }
 
 async function scheduleInteractor(){
+console.log('helllo',studentsData,coordinatorsData);
 
-  if(studentsData!== undefined && coordinatorsData!== undefined){
-    console.log('scheduler interactor calleddd');
+  if((studentsData!== undefined && coordinatorsData!== undefined) && (studentsData.length && coordinatorsData.length)){
+    console.log('scheduler interactor calleddd',studentsData,coordinatorsData);
     
-    savedReviewData= await reviewController.OncreateReviewData(coordinatorsData,studentsData)
-    studentsData=undefined
-    coordinatorsData=undefined
+   savedReviewData= await reviewController.OncreateReviewData(coordinatorsData,studentsData)
+    // studentsData=undefined
+    // coordinatorsData=undefined
 
 
 
-  if(savedReviewData){
-   let {students,coordinators} = savedReviewData
+  // if(savedReviewData){
+  //  let {students,coordinators} = savedReviewData
   
-  let id:string=savedReviewData._id
-  savedReviewData=undefined
+  // let id:string=savedReviewData._id
+  // savedReviewData=undefined
 
-   const scheduledData= await reviewController.OnScheduleReview(id,students,coordinators)
+  //  const scheduledData= await reviewController.OnScheduleReview(id,students,coordinators)
    
 
-   if(scheduledData.scheduledReviews.length){
+  //  if(scheduledData.scheduledReviews.length){
    
 
         
-        console.log(studentsData,coordinatorsData);
-        const message={
-          type:'advisors-task',
-          reviewData:scheduledData.scheduledReviews
-        }
+  //       console.log(studentsData,coordinatorsData);
+  //       const message={
+  //         type:'advisors-task',
+  //         reviewData:scheduledData.scheduledReviews
+  //       }
     
-        sendMessage('review-events',message)
+  //       sendMessage('review-events',message)
     
-       }else{
-        const message={
-          type:'advisors-task',
-          reviewData:[]
-        }
+  //      }else{
+  //       const message={
+  //         type:'advisors-task',
+  //         reviewData:[]
+  //       }
     
-        sendMessage('review-events',message)
+  //       sendMessage('review-events',message)
 
-       }
-  }
-  }
+  //      }
+  // }
+   }
   
 }
 

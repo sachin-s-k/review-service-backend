@@ -118,8 +118,44 @@ console.log('helloo');
    }
 
 
+   async OnExtendRequestsSend(req:Request,res:Response){
+  const{coordinatorId,reviewId,extendReason}=req.body
+    
+  
+    const response=await this.reviewInteractor.sendExtendRequest(coordinatorId,reviewId,extendReason)
+    return res.json(response)
 
+   }
 
+ async OnGetExtendReqsForCoordinators(req:Request,res:Response){
+    const coordiantorId=req.params.coordinatorId
+    const response=await this.reviewInteractor.getCoordinatorExtendRequests(coordiantorId)
+    return res.json(response)
+ }
+
+ async OnGetStudentExtendRequests(req:Request,res:Response){
+    const studentId=req.params.studentId
+    const response=await this.reviewInteractor.studentExtendRequests(studentId)
+    return res.json(response)
+ }
+ async OnChangeStudentExtendStatus(req:Request,res:Response){
+    try{
+    const type:any=req.query.type
+    const coordinatorId:any=req.query.coordinatorId
+    const reviewId:any=req.query.reviewId
+    const response=this.reviewInteractor.updateExtendReqStatus(coordinatorId,reviewId,type)
+
+return res.json(response)
+
+   
+ }catch(error){
+    console.log(error,'');
+    
+
+    
+
+ }
+ }
 }
 
 export {ReviewController}
