@@ -226,7 +226,7 @@ async findStudentreview(studentId: string) {
       
 }
   async updateExtendRequest(coordinatorId: string, reviewId: string,extendReason:string,extendDays:string) {
-    const updatefields={$set:{'reviews.$[review].isExtendReqSend':true,'reviews.$[review].extendReason':extendReason,'reviews.$[review].extendStatus':"pending"}}
+    const updatefields={$set:{'reviews.$[review].isExtendReqSend':true,'reviews.$[review].extendReason':extendReason,'reviews.$[review].extendStatus':"pending",'reviews.$[review].extendDays':extendDays}}
     const filter=[{'review._id':reviewId}]
     const response=await reviews.findOneAndUpdate({coordinatorId},updatefields,{new:true,arrayFilters:filter})
 
