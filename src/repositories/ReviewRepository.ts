@@ -62,34 +62,65 @@ export class ReviewRepository implements IReviewRepository{
    
         
     }
-    async coordinatorReviews(coordinatorId:string){
-       try{
-        const coordinatorReviews=await reviews.find({coordinatorId:coordinatorId})
+    async coordinatorReviews(coordinatorId:string,type:string){
 
-        if(coordinatorReviews){
-            return coordinatorReviews
+        try{
+         const coordinatorReviews=await reviews.findOne({coordinatorId})
+         let reviewData:any
+         console.log(type,'typeeeee');
+         
+         if(type=='schedule'){
+           reviewData=coordinatorReviews?.reviews.filter((review)=>review.reviewStatus=="notcompleted")
+          console.log(reviewData,'reviewData');
+ 
+         }else{
+           console.log('enterff');
+           
+           reviewData=coordinatorReviews?.reviews.filter((review)=>review.reviewStatus=="scheduled")
+           console.log(reviewData,'reviewData');
+ 
+         }
+          
+ 
+          
+         if(reviewData?.length){
+             return reviewData
+         }
+         else{
+             return {error:true,message:"coordinator not found"}
+         }
         }
-        else{
-            return {error:true,message:"coordinator not found"}
-        }
-       }
-    
-    catch(error:any){
-        return {error:error,message:"There is an error "}
-    }
-}
+     
+     catch(error:any){
+         return {error:error,message:"There is an error "}
+     }
+ }
 
-async addReviewBookingData(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string) {
+ async addReviewBookingData(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string,cancel:boolean) {
     //coodinatorData:
     //reviewObjectId
 
-    const updatefields={$set:{'reviews.$[review].startTime':startTime,'reviews.$[review].endTime':endTime,'reviews.$[review].scheduledDate':scheduledDate,'reviews.$[review].reviewerId':reviewerId,'reviews.$[review].slotId':slotId,'reviews.$[review].eventId':eventId}}
-    const filter=[{'review._id':reviewId}]
-    
-const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
-console.log(response,'ressssss');
+    if(!cancel){
+      const updatefields={$set:{'reviews.$[review].startTime':startTime,'reviews.$[review].endTime':endTime,'reviews.$[review].scheduledDate':scheduledDate,'reviews.$[review].reviewerId':reviewerId,'reviews.$[review].slotId':slotId,'reviews.$[review].eventId':eventId,'reviews.$[review].reviewStatus':"scheduled"}}
+      const filter=[{'review._id':reviewId}]
+      
+  const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
+  console.log(response,'ressssss');
+  
+  return response
 
-return response
+    }else{
+      const updatefields={$set:{'reviews.$[review].startTime':null,'reviews.$[review].endTime':null,'reviews.$[review].scheduledDate':null,'reviews.$[review].reviewerId':null,'reviews.$[review].slotId':null,'reviews.$[review].eventId':null,'reviews.$[review].reviewStatus':"notcompleted"}}
+      const filter=[{'review._id':reviewId}]
+      
+  const response=await reviews.findOneAndUpdate({coordinatorId:coordinatorId},updatefields,{new:true,arrayFilters:filter})
+  console.log(response,'ressssss');
+  
+  return response
+
+    }
+
+   
 
 }
    

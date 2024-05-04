@@ -11,7 +11,7 @@ const reviewController=new ReviewController(reviewInteractor)
 
 
 
-reviewRouter.get('/assigned-reviews/:coordinatorId',reviewController.onGetCoordinatorsReview.bind(reviewController))
+reviewRouter.get('/assigned-reviews',reviewController.onGetCoordinatorsReview.bind(reviewController))
 reviewRouter.get('/coordinator-reviews/:coordinatorId',reviewController.OnGetScheduledReviews.bind(reviewController))
 reviewRouter.post('/update',reviewController.onUpdateReviewBooking.bind(reviewController))
 reviewRouter.get('/meeting-link/:coordinatorId/:reviewId',reviewController.OngetMeetingLink.bind(reviewController))

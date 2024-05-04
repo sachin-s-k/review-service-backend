@@ -40,25 +40,21 @@ class ReviewController {
    }
    async onGetCoordinatorsReview(req:Request,res:Response){
 
-    const coordinatorId=req.params.coordinatorId
-    console.log(coordinatorId);
+    const coordinatorId:any=req.query.coordinatorId
+    const type:any=req.query.type
     
-    const response=await this.reviewInteractor.getCoordinatorReviewDetail(coordinatorId)
-
+    
+    const response=await this.reviewInteractor.getCoordinatorReviewDetail(coordinatorId,type)
     return res.json(response)
-
 
    }
    async onUpdateReviewBooking(data:any){
-console.log('helloo');
+
 
     
-    const { coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate}=JSON.parse(data.value.toString())
-    // const scheduledDate=req.body.conductedDate
-    // const reviewId="6628ef19622dcbd305e0d713"
-    // const coordinatorId="65ed8fc3afcda5149bbf0166"
-    const  response=await this.reviewInteractor.reviewbookingUpdation(coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate)
-    console.log(response);
+    const { coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate,cancel}=JSON.parse(data.value.toString())
+    const  response=await this.reviewInteractor.reviewbookingUpdation(coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate,cancel)
+    console.log(response)
     
 
    }
@@ -119,7 +115,7 @@ console.log('helloo');
 
 
    async OnExtendRequestsSend(req:Request,res:Response){
-  const{coordinatorId,reviewId,extendReason}=req.body
+  const{coordinatorId,reviewId,extendReason,extendDays}=req.body
     
   
     const response=await this.reviewInteractor.sendExtendRequest(coordinatorId,reviewId,extendReason)

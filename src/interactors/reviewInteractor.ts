@@ -275,7 +275,7 @@ interface scheduleReviews{
           
           console.log(student,"studenteeeee");
           // console.log('|||||||||||||||||||||');
-          return student.data
+          return student.data.response.response
 
         }catch(error){
 
@@ -283,14 +283,14 @@ interface scheduleReviews{
 
       }
 
-      async  getCoordinatorReviewDetail(coordinatorID:string){
+      async  getCoordinatorReviewDetail(coordinatorID:string,type:string){
         
       try{
         // console.log('entereddd');
         
-        const coordinatorReviewDetails=  await this.ReviewRepository.coordinatorReviews(coordinatorID)
+        const coordinatorReviewDetails=  await this.ReviewRepository.coordinatorReviews(coordinatorID,type)
         // console.log(coordinatorReviewDetails);
-        const {reviews}=coordinatorReviewDetails[0]
+        const reviews=coordinatorReviewDetails
         // console.log(reviews);
         
         const studentDetails=await Promise.all(reviews.map(async (student:any)=>{
@@ -317,9 +317,9 @@ interface scheduleReviews{
 
 
 
-       async reviewbookingUpdation(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string){
+       async reviewbookingUpdation(coordinatorId:string,reviewId:string,reviewerId:string,eventId:string,slotId:string,startTime:string,endTime:string,scheduledDate:string,cancel:boolean){
         console.log('interactorr called');
-        return this.ReviewRepository.addReviewBookingData(coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate)
+        return this.ReviewRepository.addReviewBookingData(coordinatorId,reviewId,reviewerId,eventId,slotId,startTime,endTime,scheduledDate,cancel)
        }
 
         reviewStatusUpdation(coordinatorId:string,reviewId:string,reviewStatus:string){
