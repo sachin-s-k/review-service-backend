@@ -118,7 +118,7 @@ class ReviewController {
   const{coordinatorId,reviewId,extendReason,extendDays}=req.body
     
   
-    const response=await this.reviewInteractor.sendExtendRequest(coordinatorId,reviewId,extendReason)
+    const response=await this.reviewInteractor.sendExtendRequest(coordinatorId,reviewId,extendReason,extendDays)
     return res.json(response)
 
    }

@@ -365,9 +365,9 @@ interface scheduleReviews{
 
       }
 
-      sendExtendRequest(coordinatorId:string,reviewId:string,extendReason:string){
+      sendExtendRequest(coordinatorId:string,reviewId:string,extendReason:string,extendDays:string){
 
-        return this.ReviewRepository.updateExtendRequest(coordinatorId,reviewId,extendReason)
+        return this.ReviewRepository.updateExtendRequest(coordinatorId,reviewId,extendReason,extendDays)
       }
 
       getCoordinatorExtendRequests(coordinatorId: string) {
@@ -380,7 +380,7 @@ interface scheduleReviews{
 
        
       updateExtendReqStatus(coordinatorId: string, reviewId: string, type: string) {
-        return this.ReviewRepository.updateExtendRequest(coordinatorId,reviewId,type)
+        return this.ReviewRepository.updateExtendRequestByCoordinator(coordinatorId,reviewId,type)
       }
 
 

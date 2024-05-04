@@ -73,6 +73,10 @@ const reviewSchema=new Schema<IReviewSchema>(
             createdAt:{
                 type:Date,
                 default:Date.now()
+            },
+            extendDays:{
+                type:String,
+                default:""
             }
            
         

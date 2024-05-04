@@ -225,7 +225,7 @@ async findStudentreview(studentId: string) {
 
       
 }
-  async updateExtendRequest(coordinatorId: string, reviewId: string,extendReason:string) {
+  async updateExtendRequest(coordinatorId: string, reviewId: string,extendReason:string,extendDays:string) {
     const updatefields={$set:{'reviews.$[review].isExtendReqSend':true,'reviews.$[review].extendReason':extendReason,'reviews.$[review].extendStatus':"pending"}}
     const filter=[{'review._id':reviewId}]
     const response=await reviews.findOneAndUpdate({coordinatorId},updatefields,{new:true,arrayFilters:filter})
@@ -289,7 +289,7 @@ console.log(coordinatorId);
 
  }
 
- async updateExtendRequests(coordinatorId:string,reviewId:string,type:string){
+ async updateExtendRequestByCoordinator(coordinatorId:string,reviewId:string,type:string){
 
    try{
     if(type=="rejected"||type=="approved"){
