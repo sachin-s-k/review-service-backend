@@ -70,7 +70,7 @@ export class ReviewRepository implements IReviewRepository{
             return coordinatorReviews
         }
         else{
-            return {message:"There is no coordnator"}
+            return {error:true,message:"coordinator not found"}
         }
        }
     

@@ -270,10 +270,10 @@ interface scheduleReviews{
         try{
           // console.log('entered student', studentId);
           
-          const student= await axios.get(`http://localhost:4000/api/students/get-profile/${studentId}`)
+          const student= await axios.get(`http://localhost:6002/api/auth/get-particular-student-profile/${studentId}`)
           // console.log('|||||||||||||||||||||');
           
-          // console.log(student.data);
+          console.log(student,"studenteeeee");
           // console.log('|||||||||||||||||||||');
           return student.data
 

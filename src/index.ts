@@ -7,7 +7,7 @@ import { ReviewController } from "./controllers/reviewController";
 import { consumerConnect } from "./infrastructure/consumers/consumer";
 import { ReviewRepository } from "./repositories/ReviewRepository";
 import { ReviewInteractor } from "./interactors/reviewInteractor";
-import { sendMessage } from "./infrastructure/kafkaService";
+// import { sendMessage } from "./infrastructure/kafkaService";
 import { reviewRouter } from "./routes/reviewRouter";
 import bodyParser from "body-parser"
 dotenv.config();
@@ -39,7 +39,7 @@ nodecron.schedule('* * * * *', async () => {
       data:{id:'123'}
      
   }
-    sendMessage('review-events',message)
+    // sendMessage('review-events',message)
   } catch (error) {
     console.error('Error scheduling review:', error);
   }
